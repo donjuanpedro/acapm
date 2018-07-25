@@ -35,7 +35,7 @@ process.argv.forEach(function (val, index, array) {
 
 function questionsDone() {
     var fs = require('fs');
-    fs.writeFile("package.json", "()", (err) => {
+    fs.writeFile("package.json", answer, (err) => {
         if (err) throw err;
         console.log("The file was successfully saved!");
     });
