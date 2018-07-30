@@ -1,42 +1,47 @@
 
 const readline = require('readline');
+const fs = require('fs');
 
 const rl = readline.createInterface({
  input: process.stdin,
  output: process.stdout
 });
 
-
-console.log(process.argv);
-process.argv.forEach(function (val, index, array) {
- console.log(index + ': ' + val);
-});
-
-    rl.question('Question 1 ', (answer) => {
-        console.log(`Thank you for your valuable feedback: ${answer}`);
-        rl.question('Question 2', (answer) => {
-            console.log(`Thank you for your valuable feedback: ${answer}`);
-            rl.question('Question 3', (answer) => {
-                console.log(`Thank you for your valuable feedback: ${answer}`);
-                rl.question('Question 4', (answer) => {
-                    console.log(`Thank you for your valuable feedback: ${answer}`);
-                    rl.question('Question 5', (answer) => {
-                        console.log(`Thank you for your valuable feedback: ${answer}`);
-                        rl.close();
-                       });
-                   });
-               });
-           });
-       });
-      
-
-
-
-
-function questionsDone() {
-    var fs = require('fs');
-    fs.writeFile("package.json", answer, (err) => {
-        if (err) throw err;
-        console.log("The file was successfully saved!");
-    });
+const myJsonData = {
+    "name" : "",
+    "from" : "",
+    "color" : "", 
+    "team" : "",
+    "beer" : "",
 }
+
+const writeMyJson=(data)=>{
+    fs.writeFile("package.json", data, (err) => {
+        if (err) throw err;
+        console.log("The file was succesfully saved!")
+    })
+}
+
+if(process.argv[2] === "init"){
+    rl.question("What is your name? ", (answer) => {
+      myJsonData['name'] = answer;
+      rl.question("Where are you from? ", (answer) => {
+        myJsonData['from'] = answer;
+        rl.question("What is your favorite color? ", (answer) => {
+          myJsonData['color'] = answer;
+          rl.question("What is your favorite team? ", (answer) => {
+            myJsonData['team'] = answer;
+            rl.question("What is your fovorite beer? ", (answer) => {
+              myJsonData['beer'] = answer;
+              rl.close();
+              writeMyJson(JSON.stringify(myJsonData, null, 4));
+            });
+          });
+        });
+      });
+    });
+  }else{
+    console.log("Please type 'node index.js init'");
+    process.exit();
+  }
+
